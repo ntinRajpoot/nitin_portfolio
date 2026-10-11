@@ -1,0 +1,1078 @@
+/* =====================================================
+   style.css  |  Nitin Rajpoot portfolio
+   Read from top to bottom:
+   1. Design tokens (colors, fonts)   2. Base styles
+   3. Layout helpers                  4. Moving background
+   5. Header                          6. Hero
+   7. Sections                        8. Footer + accessibility
+   9. ANIMATIONS (everything that moves)
+
+   Animations only run when <html> has the class "motion".
+   A tiny script in index.html adds that class (or "no-motion")
+   depending on the Animations switch and your device settings.
+   ===================================================== */
+
+
+/* ---------- 1. DESIGN TOKENS ----------
+   Change a color here and it updates everywhere. */
+:root {
+  --bg: #0E1522;          /* page background */
+  --surface: #151E2E;     /* cards */
+  --surface-2: #1B2638;   /* card headers */
+  --line: #2A3750;        /* borders */
+  --text: #E8ECF4;        /* main text */
+  --muted: #A6B1C5;       /* softer text */
+  --accent: #F0B654;      /* honey amber accent */
+  --accent-hover: #F7C877;
+  --ok: #7CD992;          /* green for "200 OK" and GET */
+  --key: #8FB0E8;         /* JSON keys in the hero panel */
+
+  --font-display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --font-body: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, Consolas, monospace;
+
+  --header-h: 64px;       /* height of the top bar */
+}
+
+
+/* ---------- 2. BASE STYLES ---------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html.motion {
+  scroll-behavior: smooth;   /* smooth scrolling when you click menu links */
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+
+a {
+  color: var(--accent);
+}
+
+/* Visible outline when using the keyboard (Tab key) */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+
+/* ---------- 3. LAYOUT HELPERS ---------- */
+.container {
+  width: min(100% - 2rem, 1080px);
+  margin-inline: auto;
+}
+
+.section {
+  padding-block: clamp(3.5rem, 8vw, 6rem);
+  scroll-margin-top: var(--header-h);   /* stops the sticky header covering titles */
+}
+
+.section:not(.hero) {
+  border-top: 1px solid var(--line);
+}
+
+.section-title {
+  position: relative;
+  margin: 0 0 2rem;
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+}
+
+/* Short accent bar under each section title */
+.section-title::after {
+  content: "";
+  display: block;
+  width: 3rem;
+  height: 3px;
+  margin-top: 0.75rem;
+  border-radius: 2px;
+  background: var(--accent);
+  transform-origin: left;
+}
+
+.prose {
+  max-width: 62ch;
+}
+
+.prose p {
+  margin: 0 0 1rem;
+  color: var(--muted);
+  font-size: 1.0625rem;
+  line-height: 1.7;
+}
+
+/* Buttons */
+.btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;                /* big enough to tap on a phone */
+  padding: 0 1.25rem;
+  overflow: hidden;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background-color 0.2s, border-color 0.2s, color 0.2s,
+              translate 0.2s, box-shadow 0.2s;
+}
+
+.btn:hover {
+  translate: 0 -2px;
+}
+
+.btn:active {
+  translate: 0 0;
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: var(--bg);
+}
+
+.btn-primary:hover {
+  background: var(--accent-hover);
+  box-shadow: 0 8px 20px rgba(240, 182, 84, 0.25);
+}
+
+.btn-secondary {
+  border-color: var(--line);
+  background: transparent;
+  color: var(--text);
+}
+
+.btn-secondary:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.75rem;
+}
+
+/* Small rounded tags used for skills and technologies */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.chips li {
+  padding: 0.35rem 0.8rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface);
+  font-size: 0.9375rem;
+}
+
+.chips-small li {
+  padding: 0.2rem 0.65rem;
+  font-size: 0.875rem;
+}
+
+
+/* ---------- 4. MOVING BACKGROUND ----------
+   Two fixed layers behind everything. They are decoration only. */
+.bg-aurora,
+.bg-grid {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.bg-aurora span {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+}
+
+.bg-aurora span:nth-child(1) {
+  top: -12vmax;
+  left: -10vmax;
+  width: 42vmax;
+  height: 42vmax;
+  background: rgba(240, 182, 84, 0.16);
+}
+
+.bg-aurora span:nth-child(2) {
+  top: 20vh;
+  right: -12vmax;
+  width: 38vmax;
+  height: 38vmax;
+  background: rgba(79, 129, 230, 0.2);
+}
+
+.bg-aurora span:nth-child(3) {
+  bottom: -14vmax;
+  left: 25vw;
+  width: 34vmax;
+  height: 34vmax;
+  background: rgba(240, 182, 84, 0.1);
+}
+
+.bg-grid {
+  background-image:
+    linear-gradient(var(--line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size: 56px 56px;
+  opacity: 0.22;
+  -webkit-mask-image: radial-gradient(ellipse at 50% 0%, #000, transparent 70%);
+  mask-image: radial-gradient(ellipse at 50% 0%, #000, transparent 70%);
+}
+
+
+/* ---------- 5. HEADER / NAVIGATION ---------- */
+.site-header {
+  position: sticky;                 /* stays at the top while scrolling */
+  top: 0;
+  z-index: 10;
+  border-bottom: 1px solid var(--line);
+  background: rgba(14, 21, 34, 0.9);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: var(--header-h);
+}
+
+.brand {
+  color: var(--text);
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.nav-tools {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Mobile menu: hidden until the button is pressed */
+.nav-links {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  flex-direction: column;
+  margin: 0;
+  padding: 0.5rem 1rem 1rem;
+  border-bottom: 1px solid var(--line);
+  background: var(--bg);
+  list-style: none;
+}
+
+.nav-links.is-open {
+  display: flex;
+}
+
+.nav-links a {
+  position: relative;
+  display: block;
+  padding: 0.65rem 0.75rem;
+  border-radius: 6px;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.nav-links a:hover {
+  color: var(--text);
+}
+
+/* script.js marks the link of the section you are viewing */
+.nav-links a[aria-current="true"] {
+  color: var(--accent);
+}
+
+/* Underline that slides in on hover and for the current section */
+.nav-links a::after {
+  content: "";
+  position: absolute;
+  left: 0.75rem;
+  right: 0.75rem;
+  bottom: 0.3rem;
+  height: 2px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.25s ease;
+}
+
+.nav-links a:hover::after,
+.nav-links a[aria-current="true"]::after {
+  transform: scaleX(1);
+}
+
+/* Animations on/off switch */
+.motion-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 44px;
+  padding: 0 0.75rem;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--muted);
+  font: inherit;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s;
+}
+
+.motion-toggle:hover {
+  border-color: var(--accent);
+  color: var(--text);
+}
+
+.switch {
+  position: relative;
+  width: 34px;
+  height: 18px;
+  border-radius: 999px;
+  background: var(--line);
+  transition: background-color 0.2s;
+}
+
+.switch::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--text);
+  transition: transform 0.2s;
+}
+
+.motion-toggle[aria-pressed="true"] .switch {
+  background: var(--accent);
+}
+
+.motion-toggle[aria-pressed="true"] .switch::after {
+  background: var(--bg);
+  transform: translateX(16px);
+}
+
+/* The three-line menu button */
+.nav-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: transparent;
+  cursor: pointer;
+}
+
+.nav-toggle-bars,
+.nav-toggle-bars::before,
+.nav-toggle-bars::after {
+  display: block;
+  width: 20px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--text);
+  transition: transform 0.2s, background-color 0.2s;
+}
+
+.nav-toggle-bars {
+  position: relative;
+}
+
+.nav-toggle-bars::before,
+.nav-toggle-bars::after {
+  content: "";
+  position: absolute;
+  left: 0;
+}
+
+.nav-toggle-bars::before {
+  top: -6px;
+}
+
+.nav-toggle-bars::after {
+  top: 6px;
+}
+
+.nav-toggle[aria-expanded="true"] .nav-toggle-bars {
+  background: transparent;
+}
+
+.nav-toggle[aria-expanded="true"] .nav-toggle-bars::before {
+  transform: translateY(6px) rotate(45deg);
+}
+
+.nav-toggle[aria-expanded="true"] .nav-toggle-bars::after {
+  transform: translateY(-6px) rotate(-45deg);
+}
+
+/* Thin progress line under the header. script.js sets --progress from 0 to 1. */
+.scroll-progress {
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  width: 100%;
+  height: 2px;
+  background: var(--accent);
+  transform: scaleX(var(--progress, 0));
+  transform-origin: left;
+}
+
+/* Tablet and desktop: links in one row, no menu button */
+@media (min-width: 800px) {
+  .nav-toggle {
+    display: none;
+  }
+
+  .nav-links {
+    display: flex;
+    position: static;
+    flex-direction: row;
+    gap: 0.25rem;
+    padding: 0;
+    border: 0;
+    background: none;
+  }
+}
+
+
+/* ---------- 6. HERO ---------- */
+.hero {
+  padding-top: clamp(2.5rem, 7vw, 5rem);
+}
+
+.hero-grid {
+  display: grid;
+  gap: 2.5rem;
+  align-items: center;
+}
+
+@media (min-width: 900px) {
+  .hero-grid {
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 3.5rem;
+  }
+}
+
+.hero h1 {
+  margin: 0 0 1.25rem;
+  font-size: clamp(2rem, 5.5vw, 3.25rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+
+/* Each word is a box that hides its overflow, so the word can slide up out of "nowhere" */
+.word {
+  display: inline-block;
+  vertical-align: bottom;
+  overflow: hidden;
+  padding-bottom: 0.12em;
+  margin-bottom: -0.12em;
+}
+
+.word > span {
+  display: inline-block;
+}
+
+.lead {
+  max-width: 48ch;
+  margin: 0;
+  color: var(--muted);
+  font-size: 1.125rem;
+  line-height: 1.65;
+}
+
+/* The typing line */
+.roles {
+  min-height: 3.4em;               /* reserves space so the page does not jump while typing */
+  margin: 1.25rem 0 0;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.9375rem;
+}
+
+.typed {
+  color: var(--accent);
+}
+
+@media (min-width: 520px) {
+  .roles {
+    min-height: 1.7em;
+  }
+}
+
+/* Blinking cursors (shown only when animations are on) */
+.cursor,
+.caret {
+  display: none;
+}
+
+/* The "API response" panel. The wrapper around it tilts toward your mouse. */
+.response {
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface);
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+}
+
+.response-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--line);
+  background: var(--surface-2);
+}
+
+.method {
+  padding: 0.1rem 0.5rem;
+  border-radius: 4px;
+  background: var(--ok);
+  color: var(--bg);
+  font-weight: 500;
+}
+
+.path {
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
+
+.response-body {
+  padding: 1rem 1.25rem 1.25rem;
+  overflow-x: auto;                 /* scrolls sideways inside the box if a line is too wide */
+  color: var(--muted);
+  line-height: 1.75;
+}
+
+/* Each JSON line is its own row. white-space: pre keeps the indentation spaces. */
+.line {
+  display: block;
+  white-space: pre;
+}
+
+.status {
+  color: var(--ok);
+}
+
+.k {
+  color: var(--key);
+}
+
+.s {
+  color: var(--accent);
+}
+
+/* Scrolling strip of skills (shown only when animations are on) */
+.marquee {
+  display: none;
+  overflow: hidden;
+  padding-block: 0.9rem;
+  border-top: 1px solid var(--line);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+}
+
+.marquee-track span {
+  display: flex;
+  align-items: center;
+  color: var(--muted);
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  white-space: nowrap;
+}
+
+/* Small amber dot after every skill name */
+.marquee-track span::after {
+  content: "";
+  width: 6px;
+  height: 6px;
+  margin-inline: 2.5rem;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+
+/* ---------- 7. SECTIONS ---------- */
+
+/* About */
+.about-grid {
+  display: grid;
+  gap: 2rem;
+}
+
+@media (min-width: 800px) {
+  .about-grid {
+    grid-template-columns: 1.4fr 1fr;
+    gap: 3rem;
+  }
+}
+
+.facts {
+  margin: 0;
+  border-top: 1px solid var(--line);
+}
+
+.facts div {
+  display: grid;
+  grid-template-columns: 7rem 1fr;
+  gap: 1rem;
+  padding: 0.9rem 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.facts dt {
+  color: var(--muted);
+}
+
+.facts dd {
+  margin: 0;
+}
+
+/* Skills */
+.skills-grid {
+  display: grid;
+  gap: 2rem;
+}
+
+@media (min-width: 700px) {
+  .skills-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.skill-group {
+  padding-top: 1rem;
+  border-top: 2px solid var(--accent);
+}
+
+.skill-group h3 {
+  margin: 0 0 1rem;
+  font-size: 1.25rem;
+}
+
+/* Projects */
+.projects-grid {
+  display: grid;
+  gap: 1.5rem;
+}
+
+@media (min-width: 800px) {
+  .projects-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.project {
+  position: relative;
+  isolation: isolate;               /* keeps the glow layer (::before) behind the text */
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface);
+  transition: border-color 0.2s, translate 0.25s ease, box-shadow 0.25s ease;
+}
+
+.project:hover {
+  translate: 0 -4px;
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.35);
+  border-color: var(--accent);
+}
+
+/* Soft amber glow that follows your mouse inside the card (see section 9) */
+.project::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: radial-gradient(260px circle at var(--mx, 50%) var(--my, 50%), rgba(240, 182, 84, 0.14), transparent 70%);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+}
+
+.project h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1.375rem;
+}
+
+.project-summary {
+  margin: 0 0 1rem;
+  color: var(--muted);
+}
+
+.project-features {
+  margin: 0 0 1.25rem;
+  padding-left: 1.1rem;
+}
+
+.project-features li {
+  margin-bottom: 0.3rem;
+}
+
+.project-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: auto;                 /* pushes the buttons to the bottom of the card */
+  padding-top: 1.5rem;
+}
+
+/* The placeholder card stays still */
+.project-placeholder {
+  border-style: dashed;
+  background: transparent;
+}
+
+.project-placeholder:hover {
+  translate: 0 0;
+  border-color: var(--line);
+  box-shadow: none;
+}
+
+/* Education */
+.edu {
+  padding-left: 1.25rem;
+  border-left: 3px solid var(--accent);
+}
+
+.edu h3 {
+  margin: 0 0 0.25rem;
+  font-size: 1.375rem;
+}
+
+.edu p {
+  margin: 0;
+  color: var(--muted);
+}
+
+/* Achievements (empty state, plus styles for when you add real items) */
+.empty {
+  max-width: 62ch;
+  padding: 1.25rem 1.5rem;
+  border: 1px dashed var(--line);
+  border-radius: 12px;
+  color: var(--muted);
+}
+
+.empty p {
+  margin: 0;
+}
+
+.achievements {
+  max-width: 62ch;
+  margin: 0;
+  padding-left: 1.1rem;
+}
+
+
+/* ---------- 8. FOOTER AND ACCESSIBILITY ---------- */
+.site-footer {
+  padding: 1.5rem 0;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.site-footer p {
+  margin: 0;
+}
+
+/* Text that screen readers read but sighted users do not see */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* "Skip to content" link: hidden until it receives keyboard focus */
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: 1rem;
+  z-index: 20;
+  padding: 0.6rem 1rem;
+  border-radius: 6px;
+  background: var(--accent);
+  color: var(--bg);
+  font-weight: 600;
+}
+
+.skip-link:focus {
+  top: 0.75rem;
+}
+
+
+/* =====================================================
+   9. ANIMATIONS
+   Every rule below starts with ".motion", so it only works when
+   animations are switched on. Switch them off and the page is calm.
+   ===================================================== */
+
+/* ----- 9a. Moving background ----- */
+.motion .bg-aurora span:nth-child(1) {
+  animation: drift-a 22s ease-in-out infinite alternate;
+}
+
+.motion .bg-aurora span:nth-child(2) {
+  animation: drift-b 26s ease-in-out infinite alternate;
+}
+
+.motion .bg-aurora span:nth-child(3) {
+  animation: drift-c 30s ease-in-out infinite alternate;
+}
+
+.motion .bg-grid {
+  animation: grid-move 40s linear infinite;
+}
+
+/* ----- 9b. Hero on page load ----- */
+/* Words slide up one after another (--w is the word number set in index.html) */
+.motion .word > span {
+  transform: translateY(110%);
+  animation: word-up 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
+  animation-delay: calc(var(--w) * 70ms + 150ms);
+}
+
+.motion .hero .lead {
+  animation: rise 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) 0.9s both;
+}
+
+.motion .hero .roles {
+  animation: rise 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) 1.05s both;
+}
+
+.motion .hero .actions {
+  animation: rise 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) 1.2s both;
+}
+
+/* API panel: fades in, then a soft amber glow slowly pulses around it */
+.motion .response {
+  animation: rise 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) 0.4s both,
+             glow 4s ease-in-out 2s infinite alternate;
+}
+
+/* JSON lines appear one by one */
+.motion .line {
+  opacity: 0;
+  animation: line-in 0.3s ease-out forwards;
+  animation-delay: calc(var(--i) * 90ms + 700ms);
+}
+
+/* Blinking cursors */
+.motion .cursor,
+.motion .caret {
+  display: inline-block;
+  width: 0.6em;
+  height: 1.1em;
+  margin-left: 2px;
+  vertical-align: text-bottom;
+  background: var(--accent);
+  animation: blink 1s steps(1) infinite;
+}
+
+/* Panel tilts toward your mouse (script.js sets --tilt-x and --tilt-y) */
+.motion .response-wrap {
+  transform: perspective(1000px) rotateX(var(--tilt-y, 0deg)) rotateY(var(--tilt-x, 0deg));
+  transition: transform 0.2s ease-out;
+}
+
+/* ----- 9c. Scrolling skills strip ----- */
+.motion .marquee {
+  display: block;
+}
+
+.motion .marquee-track {
+  animation: marquee 30s linear infinite;
+}
+
+.motion .marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+/* ----- 9d. Scroll reveal ----- */
+/* script.js adds .reveal to elements, and .is-visible when they scroll into view */
+.motion .reveal {
+  opacity: 0;
+}
+
+.motion .reveal.is-visible {
+  animation: rise 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  animation-delay: var(--d, 0ms);
+}
+
+/* Tags pop in one by one after their group appears (--n is set by script.js) */
+.motion .reveal .chips li {
+  opacity: 0;
+}
+
+.motion .reveal.is-visible .chips li {
+  animation: pop 0.4s ease-out both;
+  animation-delay: calc(var(--n, 0) * 70ms + 350ms);
+}
+
+/* The accent bar under section titles draws itself */
+.motion .section-title::after {
+  transform: scaleX(0);
+}
+
+.motion .section-title.is-visible::after {
+  transform: scaleX(1);
+  transition: transform 0.8s ease 0.35s;
+}
+
+/* ----- 9e. Buttons, cards, menu ----- */
+/* A shine sweeps across the main button on hover */
+.motion .btn-primary::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -120%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+  transform: skewX(-20deg);
+  pointer-events: none;
+}
+
+.motion .btn-primary:hover::before {
+  left: 140%;
+  transition: left 0.6s ease;
+}
+
+/* The Email button sends out a gentle pulse ring */
+.motion .btn-pulse {
+  animation: pulse 2.6s ease-out infinite;
+}
+
+/* Glow inside project cards follows the mouse */
+.motion .project:not(.project-placeholder):hover::before {
+  opacity: 1;
+}
+
+/* Mobile menu slides down when opened */
+.motion .nav-links.is-open {
+  animation: menu-in 0.25s ease-out;
+}
+
+/* ----- 9f. Keyframes: each one describes an animation from start to end ----- */
+@keyframes rise {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: none; }
+}
+
+@keyframes word-up {
+  to { transform: none; }
+}
+
+@keyframes line-in {
+  from { opacity: 0; transform: translateX(-6px); }
+  to   { opacity: 1; transform: none; }
+}
+
+@keyframes pop {
+  from { opacity: 0; transform: scale(0.85); }
+  to   { opacity: 1; transform: none; }
+}
+
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
+@keyframes glow {
+  from { box-shadow: 0 0 0 rgba(240, 182, 84, 0); }
+  to   { box-shadow: 0 0 48px rgba(240, 182, 84, 0.18); }
+}
+
+@keyframes pulse {
+  0%   { box-shadow: 0 0 0 0 rgba(240, 182, 84, 0.45); }
+  70%, 100% { box-shadow: 0 0 0 14px rgba(240, 182, 84, 0); }
+}
+
+@keyframes marquee {
+  to { transform: translateX(-50%); }
+}
+
+@keyframes menu-in {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: none; }
+}
+
+@keyframes drift-a {
+  to { transform: translate(10vmax, 8vmax) scale(1.15); }
+}
+
+@keyframes drift-b {
+  to { transform: translate(-8vmax, -6vmax) scale(1.1); }
+}
+
+@keyframes drift-c {
+  to { transform: translate(-12vmax, -5vmax) scale(1.2); }
+}
+
+@keyframes grid-move {
+  to { background-position: 56px 56px; }
+}
+
+/* ----- 9g. Animations switched off -----
+   Cancels every animation and transition. (!important is normal here
+   because we want this rule to beat all the others.) */
+.no-motion *,
+.no-motion *::before,
+.no-motion *::after {
+  animation: none !important;
+  transition: none !important;
+}

@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>Nitin Rajpoot | Java Backend and Spring Boot Developer</title>
+  <meta name="description" content="Portfolio of Nitin Rajpoot, an MCA student at KNIT Sultanpur building Java and Spring Boot applications." />
+  <meta name="theme-color" content="#0E1522" />
+
+  <!-- Small "NR" icon shown in the browser tab (the file is in the assets folder) -->
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+
+  <!-- Decides BEFORE the page is drawn whether animations are on.
+       Order of priority: 1) your saved choice from the "Animations" switch,
+       2) your device setting "reduce motion". Adds class "motion" or "no-motion" to <html>. -->
+  <script>
+    (function () {
+      var saved = null;
+      try { saved = localStorage.getItem("motion"); } catch (e) {}
+      var deviceReducesMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      var on = saved ? saved === "on" : !deviceReducesMotion;
+      document.documentElement.classList.add(on ? "motion" : "no-motion");
+    })();
+  </script>
+
+  <!-- Fonts from Google Fonts (fallback fonts are used if offline) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="style.css" />
+  <script src="script.js" defer></script>
+</head>
+
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <!-- Moving background: soft glowing blobs and a faint grid. Purely decorative. -->
+  <div class="bg-aurora" aria-hidden="true"><span></span><span></span><span></span></div>
+  <div class="bg-grid" aria-hidden="true"></div>
+
+  <!-- ================= HEADER / NAVIGATION ================= -->
+  <header class="site-header">
+    <div class="container nav">
+      <a class="brand" href="#hero">Nitin Rajpoot</a>
+
+      <nav aria-label="Main">
+        <ul class="nav-links" id="nav-menu">
+          <li><a href="#about">About</a></li>
+          <li><a href="#skills">Skills</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#education">Education</a></li>
+          <li><a href="#achievements">Achievements</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-tools">
+        <!-- Animations switch: turns all movement on or off and remembers your choice -->
+        <button class="motion-toggle" type="button" aria-pressed="true">
+          <span class="motion-toggle-label">Animations</span>
+          <span class="switch" aria-hidden="true"></span>
+        </button>
+
+        <!-- Menu button: only visible on small screens -->
+        <button class="nav-toggle" type="button" aria-label="Toggle menu" aria-expanded="false" aria-controls="nav-menu">
+          <span class="nav-toggle-bars" aria-hidden="true"></span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Thin line that fills as you scroll (script.js controls it) -->
+    <div class="scroll-progress" aria-hidden="true"></div>
+  </header>
+
+  <main id="main">
+
+    <!-- ================= HERO ================= -->
+    <section class="section hero" id="hero" aria-labelledby="hero-title">
+      <div class="container hero-grid">
+
+        <div class="hero-copy">
+          <!-- Each word sits in its own box so it can slide up one after another (--w is the word number) -->
+          <h1 id="hero-title">
+            <span class="word" style="--w:0"><span>Nitin</span></span>
+            <span class="word" style="--w:1"><span>Rajpoot</span></span>
+            <span class="word" style="--w:2"><span>builds</span></span>
+            <span class="word" style="--w:3"><span>backend</span></span>
+            <span class="word" style="--w:4"><span>applications</span></span>
+            <span class="word" style="--w:5"><span>with</span></span>
+            <span class="word" style="--w:6"><span>Java</span></span>
+            <span class="word" style="--w:7"><span>and</span></span>
+            <span class="word" style="--w:8"><span>Spring</span></span>
+            <span class="word" style="--w:9"><span>Boot.</span></span>
+          </h1>
+
+          <p class="lead">
+            MCA student at KNIT Sultanpur (2025 to 2027). I work with Java,
+            Spring Boot, REST APIs and MySQL.
+          </p>
+
+          <!-- Typing line. Screen readers get the sr-only sentence; the typing text is decoration. -->
+          <p class="roles">
+            <span class="sr-only">Looking for roles as Java Backend Developer, Spring Boot Developer or Full Stack Developer.</span>
+            <span aria-hidden="true">Looking for roles as <span class="typed">Java Backend, Spring Boot or Full Stack Developer</span><span class="caret"></span></span>
+          </p>
+
+          <div class="actions">
+            <!-- RESUME: put your PDF at assets/Nitin_Rajpoot_Resume.pdf -->
+            <a class="btn btn-primary" href="assets/Nitin_Rajpoot_Resume.pdf" download>Download resume</a>
+            <a class="btn btn-secondary" href="https://github.com/TargetDSA" target="_blank" rel="noopener noreferrer">GitHub<span class="sr-only"> (opens in a new tab)</span></a>
+            <!-- TODO: replace with your full LinkedIn profile URL, e.g. https://www.linkedin.com/in/your-name -->
+            <a class="btn btn-secondary" href="https://www.linkedin.com/" target="_blank" rel="noopener noreferrer">LinkedIn<span class="sr-only"> (opens in a new tab)</span></a>
+          </div>
+        </div>
+
+        <!-- The wrapper tilts slightly toward your mouse. The panel inside shows your profile as an API response. -->
+        <div class="response-wrap" id="tilt">
+          <div class="response" role="group" aria-label="Profile shown as an API response">
+            <div class="response-bar">
+              <span class="method">GET</span>
+              <span class="path">/api/developers/nitin-rajpoot</span>
+            </div>
+            <div class="response-body">
+              <span class="line status" style="--i:1">200 OK</span>
+              <span class="line" style="--i:2">{</span>
+              <span class="line" style="--i:3">  <span class="k">"name"</span>: <span class="s">"Nitin Rajpoot"</span>,</span>
+              <span class="line" style="--i:4">  <span class="k">"education"</span>: <span class="s">"MCA"</span>,</span>
+              <span class="line" style="--i:5">  <span class="k">"college"</span>: <span class="s">"KNIT Sultanpur"</span>,</span>
+              <span class="line" style="--i:6">  <span class="k">"years"</span>: <span class="s">"2025-2027"</span>,</span>
+              <span class="line" style="--i:7">  <span class="k">"skills"</span>: [</span>
+              <span class="line" style="--i:8">    <span class="s">"Java"</span>, <span class="s">"Spring Boot"</span>,</span>
+              <span class="line" style="--i:9">    <span class="s">"REST APIs"</span>, <span class="s">"MySQL"</span>, <span class="s">"SQL"</span>,</span>
+              <span class="line" style="--i:10">    <span class="s">"JavaScript"</span>, <span class="s">"HTML"</span>, <span class="s">"CSS"</span></span>
+              <span class="line" style="--i:11">  ],</span>
+              <span class="line" style="--i:12">  <span class="k">"lookingFor"</span>: [</span>
+              <span class="line" style="--i:13">    <span class="s">"Java Backend Developer"</span>,</span>
+              <span class="line" style="--i:14">    <span class="s">"Spring Boot Developer"</span>,</span>
+              <span class="line" style="--i:15">    <span class="s">"Full Stack Developer"</span></span>
+              <span class="line" style="--i:16">  ]</span>
+              <span class="line" style="--i:17">}<span class="cursor" aria-hidden="true"></span></span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Scrolling strip of your skills (decorative, the real list is in the Skills section) -->
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee-track">
+        <span>Java</span><span>Spring Boot</span><span>REST APIs</span><span>MySQL</span><span>SQL</span><span>JavaScript</span><span>HTML</span><span>CSS</span>
+        <!-- Same list again so the loop looks endless -->
+        <span>Java</span><span>Spring Boot</span><span>REST APIs</span><span>MySQL</span><span>SQL</span><span>JavaScript</span><span>HTML</span><span>CSS</span>
+      </div>
+    </div>
+
+    <!-- ================= ABOUT ================= -->
+    <section class="section" id="about" aria-labelledby="about-title">
+      <div class="container">
+        <h2 class="section-title" id="about-title">About me</h2>
+
+        <div class="about-grid">
+          <!-- TODO: edit these paragraphs so they sound like you. Only write things that are true. -->
+          <div class="prose">
+            <p>I'm a Master of Computer Applications (MCA) student at KNIT Sultanpur, batch of 2025 to 2027.</p>
+            <p>I'm learning to build backend applications with Java and Spring Boot, expose them through REST APIs, and store data in MySQL. I also use HTML, CSS and JavaScript to build the pages people see.</p>
+            <p>I'm a fresher looking for a first role as a Java Backend Developer, Spring Boot Developer or Full Stack Developer.</p>
+          </div>
+
+          <dl class="facts">
+            <div><dt>Studying</dt><dd>MCA, KNIT Sultanpur</dd></div>
+            <div><dt>Batch</dt><dd>2025 to 2027</dd></div>
+            <div><dt>Focus</dt><dd>Java, Spring Boot, REST APIs, MySQL</dd></div>
+            <div><dt>Looking for</dt><dd>Backend and full stack roles</dd></div>
+          </dl>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= SKILLS ================= -->
+    <!-- Only list skills you have actually used. To add one, copy an <li> line. -->
+    <section class="section" id="skills" aria-labelledby="skills-title">
+      <div class="container">
+        <h2 class="section-title" id="skills-title">Skills</h2>
+
+        <div class="skills-grid">
+          <div class="skill-group">
+            <h3>Backend</h3>
+            <ul class="chips">
+              <li>Java</li>
+              <li>Spring Boot</li>
+              <li>REST APIs</li>
+            </ul>
+          </div>
+
+          <div class="skill-group">
+            <h3>Database</h3>
+            <ul class="chips">
+              <li>MySQL</li>
+              <li>SQL</li>
+            </ul>
+          </div>
+
+          <div class="skill-group">
+            <h3>Frontend</h3>
+            <ul class="chips">
+              <li>HTML</li>
+              <li>CSS</li>
+              <li>JavaScript</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= PROJECTS ================= -->
+    <section class="section" id="projects" aria-labelledby="projects-title">
+      <div class="container">
+        <h2 class="section-title" id="projects-title">Projects</h2>
+
+        <div class="projects-grid">
+
+          <!-- PROJECT 1 -->
+          <article class="project">
+            <h3>AI Placement Assistance</h3>
+            <p class="project-summary">
+              A Spring Boot project that helps with placement preparation by reading a resume
+              and comparing it with job requirements.
+            </p>
+
+            <!-- IMPORTANT: keep only the features that really work in your project.
+                 Delete any <li> that is not finished yet. -->
+            <ul class="project-features" aria-label="Features">
+              <li>Resume skill extraction</li>
+              <li>Job matching</li>
+              <li>Skill-gap analysis</li>
+              <li>Recommendations</li>
+            </ul>
+
+            <!-- Add other technologies only if this project really uses them (for example MySQL). -->
+            <ul class="chips chips-small" aria-label="Technologies">
+              <li>Java</li>
+              <li>Spring Boot</li>
+            </ul>
+
+            <div class="project-links">
+              <!-- TODO: replace with the exact repository link, e.g. https://github.com/TargetDSA/your-repo-name -->
+              <a class="btn btn-secondary" href="https://github.com/TargetDSA" target="_blank" rel="noopener noreferrer">View code on GitHub<span class="sr-only"> (opens in a new tab)</span></a>
+
+              <!-- LIVE DEMO: when the project is deployed, remove the comment markers around the line below
+              <a class="btn btn-primary" href="PASTE-LIVE-DEMO-URL" target="_blank" rel="noopener noreferrer">Live demo<span class="sr-only"> (opens in a new tab)</span></a>
+              -->
+            </div>
+          </article>
+
+          <!-- PROJECT 2 (placeholder). When you send me the details, this card gets replaced.
+               To fill it yourself, copy the structure of Project 1 above. -->
+          <article class="project project-placeholder">
+            <h3>Second project</h3>
+            <p class="project-summary">Details coming soon.</p>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= EDUCATION ================= -->
+    <!-- Add earlier education (graduation, 12th, 10th) only if you want it shown. Copy the <article> block. -->
+    <section class="section" id="education" aria-labelledby="education-title">
+      <div class="container">
+        <h2 class="section-title" id="education-title">Education</h2>
+
+        <article class="edu">
+          <h3>Master of Computer Applications (MCA)</h3>
+          <p>KNIT Sultanpur</p>
+          <p>2025 to 2027, in progress</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- ================= ACHIEVEMENTS ================= -->
+    <!-- When you have real achievements (certificates, contests, hackathons), replace the empty box with:
+         <ul class="achievements"><li>Your achievement here</li></ul> -->
+    <section class="section" id="achievements" aria-labelledby="achievements-title">
+      <div class="container">
+        <h2 class="section-title" id="achievements-title">Achievements</h2>
+
+        <div class="empty">
+          <p>I'm just starting out, so this section is empty for now. I'll add certificates, contests and other milestones here as I earn them.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= CONTACT ================= -->
+    <section class="section" id="contact" aria-labelledby="contact-title">
+      <div class="container">
+        <h2 class="section-title" id="contact-title">Contact</h2>
+
+        <div class="prose">
+          <p>I'm open to Java Backend, Spring Boot and Full Stack opportunities. LinkedIn or email is the quickest way to reach me.</p>
+        </div>
+
+        <div class="actions">
+          <!-- TODO: replace with your real email address -->
+          <a class="btn btn-primary btn-pulse" href="mailto:your-email@example.com">Email me</a>
+          <a class="btn btn-secondary" href="https://www.linkedin.com/" target="_blank" rel="noopener noreferrer">LinkedIn<span class="sr-only"> (opens in a new tab)</span></a>
+          <a class="btn btn-secondary" href="https://github.com/TargetDSA" target="_blank" rel="noopener noreferrer">GitHub<span class="sr-only"> (opens in a new tab)</span></a>
+          <a class="btn btn-secondary" href="assets/Nitin_Rajpoot_Resume.pdf" download>Download resume</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; <span id="year">2026</span> Nitin Rajpoot. Built with HTML, CSS and JavaScript.</p>
+    </div>
+  </footer>
+</body>
+</html>
